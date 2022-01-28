@@ -6,7 +6,7 @@ function _subscribe(url) {
         console.log("Socket disconnected", reason)
     })
     socketConnection.getSocket().on('connect', () => {
-        console.log("Socket connected to", process.env.BASE_URL)
+        console.log("Socket connected to", url)
         socketConnection.getSocket().emit('logger-subscription', { logKey: "Some key" })
         socketConnection.getSocket().on('logger-subscription-response', _data => {
             console.log("Subscription details", _data)
