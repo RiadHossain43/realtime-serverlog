@@ -1,7 +1,7 @@
 require('dotenv').config()
 let socketConnection = require('./services/webSocketService')
-function _subscribe() {
-    socketConnection.init()
+function _subscribe(url) {
+    socketConnection.init(url, { query: {} })
     socketConnection.getSocket().on('disconnect', (reason) => {
         console.log("Socket disconnected", reason)
     })
@@ -10,10 +10,10 @@ function _subscribe() {
         socketConnection.getSocket().emit('logger-subscription', { logKey: "Some key" })
         socketConnection.getSocket().on('logger-subscription-response', _data => {
             console.log("Subscription details", _data)
-            socketConnection.getSocket().on('log-stream', _data => {
-                _data && console.log(..._data)
-            })
+        })
+        socketConnection.getSocket().on('log-stream', _data => {
+            _data && console.log(..._data)
         })
     })
 }
-_subscribe()
+module.exports = _subscribe
